@@ -1,6 +1,20 @@
 defmodule TunezWeb.Artists.FormLive do
   use TunezWeb, :live_view
   alias Tunez.Music.Artist
+  alias Tunez.Music
+
+
+  def mount(%{"id" => artist_id}, _session, socket) do
+    artist = Music.get_artist_by_id!(artist_id)
+    form = Music.form_to_update_artist(artist)
+
+    socket =
+      socket
+      |> assign(:form, form)
+      |> assign(:page_title, "Update Artist")
+
+    {:ok, socket}
+  end
 
   def mount(_params, _session, socket) do
     form = AshPhoenix.Form.for_create(Artist, :create)
