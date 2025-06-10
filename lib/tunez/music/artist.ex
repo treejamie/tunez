@@ -19,6 +19,11 @@ defmodule Tunez.Music.Artist do
     update_timestamp :updated_at
   end
 
+  relationships do
+    has_many :albums, Tunez.Music.Album
+  end
+
+
   actions do
     defaults [:create, :read, :update, :destroy]
     default_accept [:name, :biography]
