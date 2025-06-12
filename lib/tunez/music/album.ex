@@ -7,7 +7,11 @@ defmodule Tunez.Music.Album do
     references do
       reference :artist, index?: true
     end
+  end
 
+  identities do
+    identity :unique_album_names_per_artist, [:name, :artist_id],
+    message: "already exists for this artist"
   end
 
   attributes do
@@ -53,7 +57,7 @@ defmodule Tunez.Music.Album do
       message: "must be between 1950 and next year"
 
       validate match(:cover_image_url,
-        ~r"(^https://|/images/).+$"
+         ~S{^(https://|/images/).+}
       ),
       where: [changing(:cover_image_url)],
       message: "must start with https:// or /images"
