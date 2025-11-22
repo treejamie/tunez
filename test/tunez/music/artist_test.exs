@@ -10,17 +10,17 @@ defmodule Tunez.Music.ArtistTest do
     end
   end
 
+  @tag :skip
   describe "Tunez.Music.search_artists/1-2" do
-    def names(page), do: Enum.map(page.results, & &1.name)
+    # def names(page), do: Enum.map(page.results, & &1.name)
 
-    @tag :skip
-    test "can filter by partial name matches" do
-      # ["hello", "goodbye", "what?"]
-      # |> Enum.each(&generate(artist(name: &1)))
+    # test "can filter by partial name matches" do
+    #   ["hello", "goodbye", "what?"]
+    #   |> Enum.each(&generate(artist(name: &1)))
 
-      # assert Enum.sort(names(Music.search_artists!("o"))) == ["goodbye", "hello"]
-      # assert names(Music.search_artists!("oo")) == ["goodbye"]
-      # assert names(Music.search_artists!("he")) == ["hello"]
+    #   assert Enum.sort(names(Music.search_artists!("o"))) == ["goodbye", "hello"]
+    #   assert names(Music.search_artists!("oo")) == ["goodbye"]
+    #   assert names(Music.search_artists!("he")) == ["hello"]
     end
 
     @tag :skip
