@@ -4,6 +4,24 @@ defmodule Tunez.Music.Artist do
   postgres do
     table "artists"
     repo Tunez.Repo
+
+    custom_indexes do
+      index "name gin_tgrm_ops", name: "artists_name_gin_index", using: "GIN"
+    end
+  end
+
+  actions do
+    defaults [:create, :read, :update, :destroy]
+    default_accept [:name, :biography]
+
+    read :search do
+      argument :query, :ci_string do
+        constraints allow_empty?: true
+        default ""
+      end
+
+      filter expr(contains(name, ^arg(:query)))
+    end
   end
 
   attributes do
@@ -23,11 +41,5 @@ defmodule Tunez.Music.Artist do
     has_many :albums, Tunez.Music.Album do
       sort year_released: :desc
     end
-  end
-
-
-  actions do
-    defaults [:create, :read, :update, :destroy]
-    default_accept [:name, :biography]
   end
 end
