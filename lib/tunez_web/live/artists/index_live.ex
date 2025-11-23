@@ -3,8 +3,6 @@ defmodule TunezWeb.Artists.IndexLive do
 
   require Logger
 
-  alias Tunez.Music
-
   def mount(_params, _session, socket) do
     socket =
       socket
@@ -14,11 +12,13 @@ defmodule TunezWeb.Artists.IndexLive do
   end
 
   def handle_params(params, _url, socket) do
+    sort_by = Map.get(params, "sort_by") |> validate_sort_by()
     query_text = Map.get(params, "q", "")
-    artists = Music.search_artists!(query_text)
+    artists = Tunez.Music.search_artists!(query_text, query: [sort_input: sort_by])
 
     socket =
       socket
+      |> assign(:sort_by, sort_by)
       |> assign(:query_text, query_text)
       |> assign(:artists, artists)
 
@@ -30,6 +30,7 @@ defmodule TunezWeb.Artists.IndexLive do
     <Layouts.app {assigns}>
       <.header responsive={false}>
         <.h1>Artists</.h1>
+        <:action><.sort_changer selected={@sort_by} /></:action>
         <:action>
           <.search_box query={@query_text} method="get" data-role="artist-search" phx-submit="search" />
         </:action>
@@ -156,8 +157,8 @@ defmodule TunezWeb.Artists.IndexLive do
 
   defp sort_options do
     [
-      {"recently updated", "updated_at"},
-      {"recently added", "inserted_at"},
+      {"recently updated", "-updated_at"},
+      {"recently added", "-inserted_at"},
       {"name", "name"}
     ]
   end
@@ -182,7 +183,7 @@ defmodule TunezWeb.Artists.IndexLive do
   end
 
   def handle_event("search", %{"query" => query}, socket) do
-    params = remove_empty(%{q: query})
+    params = remove_empty(%{q: query, sort_by: socket.assigns.sort_by})
     {:noreply, push_patch(socket, to: ~p"/?#{params}")}
   end
 
