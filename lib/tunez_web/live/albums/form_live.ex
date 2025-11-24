@@ -114,6 +114,7 @@ defmodule TunezWeb.Albums.FormLive do
       update(socket, :form, fn form ->
         AshPhoenix.Form.validate(form, form_data)
       end)
+
     {:noreply, socket}
   end
 
@@ -124,13 +125,17 @@ defmodule TunezWeb.Albums.FormLive do
           socket
           |> put_flash(:info, "Album saved")
           |> push_navigate(to: ~p"/artists/#{album.artist_id}")
+
         {:noreply, socket}
+
       {:error, form} ->
         IO.inspect(form)
+
         socket =
           socket
           |> put_flash(:error, "Nope, cannot save")
           |> assign(:form, form)
+
         {:noreply, socket}
     end
   end

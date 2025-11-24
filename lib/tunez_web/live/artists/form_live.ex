@@ -3,7 +3,6 @@ defmodule TunezWeb.Artists.FormLive do
   alias Tunez.Music.Artist
   alias Tunez.Music
 
-
   def mount(%{"id" => artist_id}, _session, socket) do
     artist = Music.get_artist_by_id!(artist_id)
     form = Music.form_to_update_artist(artist)
@@ -57,6 +56,7 @@ defmodule TunezWeb.Artists.FormLive do
       update(socket, :form, fn form ->
         AshPhoenix.Form.validate(form, form_data) |> IO.inspect()
       end)
+
     {:noreply, socket}
   end
 
@@ -67,14 +67,16 @@ defmodule TunezWeb.Artists.FormLive do
           socket
           |> put_flash(:info, "Artist saved successfully")
           |> push_navigate(to: ~p"/artists/#{artist}")
-          {:noreply, socket}
-        {:error, form} ->
-          socket =
-            socket
-            |> put_flash(:error, "Could not save artist data")
-            |> assign(:form, form)
-          {:noreply, socket}
-    end
 
+        {:noreply, socket}
+
+      {:error, form} ->
+        socket =
+          socket
+          |> put_flash(:error, "Could not save artist data")
+          |> assign(:form, form)
+
+        {:noreply, socket}
+    end
   end
 end
