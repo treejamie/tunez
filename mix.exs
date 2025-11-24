@@ -34,6 +34,10 @@ defmodule Tunez.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:ash_authentication_phoenix, "~> 2.0"},
+      {:bcrypt_elixir, "~> 3.0"},
+      {:picosat_elixir, "~> 0.2"},
+      {:ash_authentication, "~> 4.0"},
       {:absinthe_phoenix, "~> 2.0"},
       {:ash_graphql, "~> 1.0"},
       {:open_api_spex, "~> 3.0"},
@@ -48,7 +52,7 @@ defmodule Tunez.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 1.0.0"},
+      {:phoenix_live_view, "~> 1.1.0"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
