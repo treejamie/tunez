@@ -13,6 +13,9 @@ defmodule Tunez.Music do
       create Tunez.Music.Artist, :create_artist, :create
       update Tunez.Music.Artist, :update_artist, :update
       destroy Tunez.Music.Artist, :destroy_artist, :destroy
+      create Tunez.Music.Artist, :create_album, :create
+      update Tunez.Music.Artist, :update_album, :update
+      destroy Tunez.Music.Album, :destroy_album, :destroy
     end
   end
 
