@@ -69,6 +69,11 @@ defmodule Tunez.Music.Artist do
     end
   end
 
+  changes do
+    change relate_actor(:created_by, allow_nil?: true), on: [:create]
+    change relate_actor(:updated_by, allow_nil?: true)
+  end
+
   attributes do
     uuid_primary_key :id
 
@@ -94,6 +99,9 @@ defmodule Tunez.Music.Artist do
       sort year_released: :desc
       public? true
     end
+
+    belongs_to :created_by, Tunez.Accounts.User
+    belongs_to :updated_by, Tunez.Accounts.User
   end
 
   aggregates do
