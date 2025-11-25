@@ -1,0 +1,70 @@
+name: Tests
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  elixir-test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+      ImageOS: ubuntu22
+    strategy:
+      matrix:
+        os: [ubuntu-24.04]
+        otp: [27.3.4]
+        elixir: [1.18.3]
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: tunez_test
+          POSTGRES_PORT: 5432
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: erlef/setup-beam@v1.17.3
+        with:
+          version-file: .tool-versions
+          version-type: strict
+
+      - name: Cache deps dir
+        uses: actions/cache@v4
+        id: cache-deps
+        with:
+          path: |
+            deps
+            _build
+          key: mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            mix-
+
+      - name: Install dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+
+      # - name: Compile
+      #   run: mix compile --warnings-as-errors
+
+      - name: Run tests
+        run: mix test --max-failures 1 --trace --warnings-as-errors
+
+      # - name: Check code is formatted
+      #   run: mix format --check-formatted
+
+      # - name: Check unused dependencies
+      #   run: mix deps.unlock --check-unused
