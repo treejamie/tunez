@@ -30,7 +30,8 @@ defmodule TunezWeb.Router do
   scope "/", TunezWeb do
     pipe_through :browser
 
-    ash_authentication_live_session :authenticated_routes do
+    ash_authentication_live_session :authenticated_routes,
+      on_mount: [{TunezWeb.LiveUserAuth, :live_user_optional}] do
       live "/", Artists.IndexLive
       live "/artists/new", Artists.FormLive, :new
       live "/artists/:id", Artists.ShowLive
