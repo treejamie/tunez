@@ -87,3 +87,6 @@ config :swoosh, :api_client, false
 # enable debug mode
 config :ash_authentication,
   debug_authentication_failures?: true
+
+# show policies breakdowns
+config :ash, :policies, show_policy_breakdowns?: true
