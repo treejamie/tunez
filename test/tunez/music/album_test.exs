@@ -6,19 +6,18 @@ defmodule TunezWeb.Music.AlbumTest do
   alias Tunez.Music, warn: false
 
   describe "Tunez.Music.create_album/1-2" do
-    @tag :skip
     test "stores the actor that created the record" do
-      # actor = generate(user(role: :admin))
-      # artist = generate(artist())
+      actor = generate(user(role: :admin))
+      artist = generate(artist())
 
-      # album =
-      #   Music.create_album!(
-      #     %{name: "New Album", artist_id: artist.id, year_released: 2024},
-      #     actor: actor
-      #   )
+      album =
+        Music.create_album!(
+          %{name: "New Album", artist_id: artist.id, year_released: 2024},
+          actor: actor
+        )
 
-      # assert album.created_by_id == actor.id
-      # assert album.updated_by_id == actor.id
+      assert album.created_by_id == actor.id
+      assert album.updated_by_id == actor.id
     end
 
     @tag skip: "can be enabled during chapter 10. Also need to uncomment `use Oban.Testing`
@@ -38,15 +37,14 @@ defmodule TunezWeb.Music.AlbumTest do
   end
 
   describe "Tunez.Music.update_album/2-3" do
-    @tag :skip
     test "stores the actor that updated the record" do
-      # actor = generate(user(role: :admin))
+      actor = generate(user(role: :admin))
 
-      # album = generate(album(name: "The Old Name"))
-      # refute album.updated_by_id == actor.id
+      album = generate(album(name: "The Old Name"))
+      refute album.updated_by_id == actor.id
 
-      # album = Music.update_album!(album, %{name: "The New Name"}, actor: actor)
-      # assert album.updated_by_id == actor.id
+      album = Music.update_album!(album, %{name: "The New Name"}, actor: actor)
+      assert album.updated_by_id == actor.id
     end
   end
 
@@ -113,61 +111,56 @@ defmodule TunezWeb.Music.AlbumTest do
   end
 
   describe "policies" do
-    # def setup_users do
-    #   %{
-    #     admin: generate(user(role: :admin)),
-    #     editor: generate(user(role: :editor)),
-    #     user: generate(user(role: :user))
-    #   }
-    # end
+    def setup_users do
+      %{
+        admin: generate(user(role: :admin)),
+        editor: generate(user(role: :editor)),
+        user: generate(user(role: :user))
+      }
+    end
 
-    @tag skip: "Also uncomment the `setup_users` function above"
     test "admins and editors can create new albums" do
-      # users = setup_users()
-      # assert Music.can_create_album?(users.admin)
-      # assert Music.can_create_album?(users.editor)
-      # refute Music.can_create_album?(users.user)
-      # refute Music.can_create_album?(nil)
+      users = setup_users()
+      assert Music.can_create_album?(users.admin)
+      assert Music.can_create_album?(users.editor)
+      refute Music.can_create_album?(users.user)
+      refute Music.can_create_album?(nil)
     end
 
-    @tag skip: "Also uncomment the `setup_users` function above"
     test "admins can delete albums" do
-      # users = setup_users()
-      # album = generate(album())
+      users = setup_users()
+      album = generate(album())
 
-      # assert Music.can_destroy_album?(users.admin, album)
-      # refute Music.can_destroy_album?(users.user, album)
-      # refute Music.can_destroy_album?(nil, album)
+      assert Music.can_destroy_album?(users.admin, album)
+      refute Music.can_destroy_album?(users.user, album)
+      refute Music.can_destroy_album?(nil, album)
     end
 
-    @tag skip: "Also uncomment the `setup_users` function above"
     test "admins can update albums" do
-      # users = setup_users()
-      # album = generate(album())
+      users = setup_users()
+      album = generate(album())
 
-      # assert Music.can_update_album?(users.admin, album)
-      # refute Music.can_update_album?(users.user, album)
-      # refute Music.can_update_album?(nil, album)
+      assert Music.can_update_album?(users.admin, album)
+      refute Music.can_update_album?(users.user, album)
+      refute Music.can_update_album?(nil, album)
     end
 
-    @tag skip: "Also uncomment the `setup_users` function above"
     test "editors can edit albums that they created" do
-      # users = setup_users()
-      # can_edit = generate(album(seed?: true, created_by: users.editor))
-      # cant_edit = generate(album(seed?: true, created_by: users.admin))
+      users = setup_users()
+      can_edit = generate(album(seed?: true, created_by: users.editor))
+      cant_edit = generate(album(seed?: true, created_by: users.admin))
 
-      # assert Music.can_update_album?(users.editor, can_edit)
-      # refute Music.can_update_album?(users.editor, cant_edit)
+      assert Music.can_update_album?(users.editor, can_edit)
+      refute Music.can_update_album?(users.editor, cant_edit)
     end
 
-    @tag skip: "Also uncomment the `setup_users` function above"
     test "editors can delete albums that they created" do
-      # users = setup_users()
-      # can_delete = generate(album(seed?: true, created_by: users.editor))
-      # cant_delete = generate(album(seed?: true, created_by: users.admin))
+      users = setup_users()
+      can_delete = generate(album(seed?: true, created_by: users.editor))
+      cant_delete = generate(album(seed?: true, created_by: users.admin))
 
-      # assert Music.can_destroy_album?(users.editor, can_delete)
-      # refute Music.can_destroy_album?(users.editor, cant_delete)
+      assert Music.can_destroy_album?(users.editor, can_delete)
+      refute Music.can_destroy_album?(users.editor, cant_delete)
     end
   end
 
