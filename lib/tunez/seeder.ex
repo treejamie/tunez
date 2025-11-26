@@ -204,6 +204,18 @@ defmodule Tunez.Seeder do
 
         The band has quickly risen in the ranks of the Russian metal scene, known for their intense live performances that captivate audiences with both their musical prowess and their thematic depth. Their shows often feature theatrical elements such as elaborate stage setups and costumes that enhance the dark and mystical atmosphere of their performances.
         """
+      },
+      %{
+        name: "Onion & Creek",
+        biography: """
+        Formed in the shadowy stillness of an English woodland workshop in 2023, Onion & Creek channel the darker edges of drum and bass with an unmistakably nocturnal character. Their sound blends crushing Reese basslines, tightly engineered breaks, and an undercurrent of tension drawn from long nights spent prowling around warm studio gear.
+
+        Onion, the more contemplative of the two, shapes the low end with a slow-burn intensity — brooding sub-pressure, distorted textures, and bass riffs that feel like they’re emerging from beneath the floorboards. Creek counterbalances this with razor-edited percussion, frenetic drum programming, and an uncanny natural sense of timing that borders on predatory instinct.
+
+        Their tracks explore themes of isolation, nocturnal vigilance, and the strange calm found between darkness and movement. Though entirely instrumental, their music carries a narrative weight — the mood of a world lit only by LEDs, the soft hum of electronics, and the low rumble of something unseen slinking through the night.
+
+        Rising quickly within underground DnB circles, Onion & Creek have earned a reputation for their intense live sets, marked by pulsing light rigs, heavy sub-pressure, and the pair’s signature unblinking on-stage presence. Performances often feel more like rituals than shows, enveloping the audience in a dense, atmospheric haze of sound that lingers long after the last bassline fades.
+        """
       }
     ]
   end
@@ -218,6 +230,24 @@ defmodule Tunez.Seeder do
           })
   def albums do
     [
+      %{
+        name: "Kibble Protest",
+        artist_name: "Onion & Creek",
+        cover_image_url: "/images/albums/onion-creek.jpg",
+        year_released: 2025,
+        tracks: [
+          %{name: "Wet Food Uprising", duration: "4:12", duration_seconds: 252},
+          %{name: "Open The Door Again", duration: "3:47", duration_seconds: 227},
+          %{name: "Inside Outside Loop", duration: "5:03", duration_seconds: 303},
+          %{name: "Empty Bowl Conspiracy", duration: "4:31", duration_seconds: 271},
+          %{name: "Cold Floor Vigil", duration: "3:58", duration_seconds: 238},
+          %{name: "Patience Has Left The Building", duration: "4:44", duration_seconds: 284},
+          %{name: "Doorframe Prophet", duration: "3:36", duration_seconds: 216},
+          %{name: "Midnight Howl For Service", duration: "5:19", duration_seconds: 319},
+          %{name: "The Great Kibble Shortage", duration: "4:28", duration_seconds: 268},
+          %{name: "Let Me In Let Me Out", duration: "4:55", duration_seconds: 295}
+        ]
+      },
       %{
         name: "A Crack in the Road",
         cover_image_url: "/images/albums/nights_in_the_nullarbor_a_crack_in_the_road.png",

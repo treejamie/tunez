@@ -12,6 +12,7 @@ defmodule Tunez.Music.Album do
 
   json_api do
     type "album"
+    includes [:tracks]
   end
 
   postgres do
@@ -28,10 +29,15 @@ defmodule Tunez.Music.Album do
 
     create :create do
       accept [:name, :year_released, :cover_image_url, :artist_id]
+      argument :tracks, {:array, :map}
+      change manage_relationship(:tracks, type: :direct_control, order_is_key: :order)
     end
 
     update :update do
       accept [:name, :year_released, :cover_image_url]
+      require_atomic? false
+      argument :tracks, {:array, :map}
+      change manage_relationship(:tracks, type: :direct_control, order_is_key: :order)
     end
   end
 
@@ -105,14 +111,24 @@ defmodule Tunez.Music.Album do
 
     belongs_to :created_by, Tunez.Accounts.User
     belongs_to :updated_by, Tunez.Accounts.User
+
+    has_many :tracks, Tunez.Music.Track do
+      sort order: :asc
+      public? true
+    end
   end
 
   calculations do
+    calculate :duration, :string, Tunez.Music.Calculations.SecondsToMinutes
     calculate :years_ago, :integer, expr(2025 - year_released)
 
     calculate :string_years_ago,
               :string,
               expr("Wow, this was released " <> years_ago <> " years ago!")
+  end
+
+  aggregates do
+    sum :duration_seconds, :tracks, :duration_seconds
   end
 
   identities do
