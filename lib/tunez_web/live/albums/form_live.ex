@@ -3,7 +3,10 @@ defmodule TunezWeb.Albums.FormLive do
 
   def mount(%{"id" => album_id}, _session, socket) do
     album =
-      Tunez.Music.get_album_by_id!(album_id, load: [:artist], actor: socket.assigns.current_user)
+      Tunez.Music.get_album_by_id!(album_id,
+        load: [:artist, :tracks],
+        actor: socket.assigns.current_user
+      )
 
     artist = Tunez.Music.get_artist_by_id!(album.artist_id, actor: socket.assigns.current_user)
 
@@ -139,8 +142,6 @@ defmodule TunezWeb.Albums.FormLive do
         {:noreply, socket}
 
       {:error, form} ->
-        IO.inspect(form)
-
         socket =
           socket
           |> put_flash(:error, "Nope, cannot save")
@@ -151,10 +152,21 @@ defmodule TunezWeb.Albums.FormLive do
   end
 
   def handle_event("add-track", _params, socket) do
+    socket =
+      update(socket, :form, fn form ->
+        order = length(AshPhoenix.Form.value(form, :tracks) || []) + 1
+        AshPhoenix.Form.add_form(form, :tracks, params: %{order: order})
+      end)
+
     {:noreply, socket}
   end
 
-  def handle_event("remove-track", %{"path" => _path}, socket) do
+  def handle_event("remove-track", %{"path" => path}, socket) do
+    socket =
+      update(socket, :form, fn form ->
+        AshPhoenix.Form.remove_form(form, path)
+      end)
+
     {:noreply, socket}
   end
 

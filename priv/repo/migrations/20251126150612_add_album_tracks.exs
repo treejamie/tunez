@@ -11,7 +11,7 @@ defmodule Tunez.Repo.Migrations.AddAlbumTracks do
     create table(:tracks, primary_key: false) do
       add :id, :uuid, null: false, default: fragment("gen_random_uuid()"), primary_key: true
       add :order, :bigint, null: false
-      add :name, :bigint, null: false
+      add :name, :text, null: false
       add :duration_seconds, :bigint, null: false
 
       add :inserted_at, :utc_datetime_usec,

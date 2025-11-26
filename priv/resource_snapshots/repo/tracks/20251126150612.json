@@ -34,7 +34,7 @@
       "scale": null,
       "size": null,
       "source": "name",
-      "type": "bigint"
+      "type": "text"
     },
     {
       "allow_nil?": false,
