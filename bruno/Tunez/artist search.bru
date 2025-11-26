@@ -1,0 +1,19 @@
+meta {
+  name: artist search
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:4000/api/json/artists/?query=cove
+  body: none
+  auth: inherit
+}
+
+params:query {
+  query: cove
+}
+
+settings {
+  encodeUrl: true
+}
