@@ -60,6 +60,8 @@ defmodule TunezWeb.Albums.FormLive do
         </div>
         <.input field={form[:cover_image_url]} label="Cover Image URL" />
 
+        <.track_inputs form={form} />
+
         <:actions>
           <.button type="primary">Save</.button>
         </:actions>
