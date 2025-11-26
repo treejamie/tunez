@@ -165,55 +165,53 @@ defmodule TunezWeb.Music.AlbumTest do
   end
 
   describe "validations" do
-    @tag :skip
     test "year_released must be between 1950 and now" do
-      # admin = generate(user(role: :admin))
-      # artist = generate(artist())
+      admin = generate(user(role: :admin))
+      artist = generate(artist())
 
-      # # The assertion isn't really needed here, but we want to signal to
-      # # our future selves that this is part of the test, not the setup.
-      # assert %{artist_id: artist.id, name: "test 2024", year_released: 2024}
-      #        |> Music.create_album!(actor: admin)
+      # The assertion isn't really needed here, but we want to signal to
+      # our future selves that this is part of the test, not the setup.
+      assert %{artist_id: artist.id, name: "test 2024", year_released: 2024}
+             |> Music.create_album!(actor: admin)
 
-      # # Using `assert_raise`
-      # assert_raise Ash.Error.Invalid, ~r/must be between 1950 and next year/, fn ->
-      #   %{artist_id: artist.id, name: "test 1925", year_released: 1925}
-      #   |> Music.create_album!(actor: admin)
-      # end
+      # Using `assert_raise`
+      assert_raise Ash.Error.Invalid, ~r/must be between 1950 and next year/, fn ->
+        %{artist_id: artist.id, name: "test 1925", year_released: 1925}
+        |> Music.create_album!(actor: admin)
+      end
 
-      # # Using `assert_has_error` - note the lack of bang to return the error
-      # %{artist_id: artist.id, name: "test 1950", year_released: 1950}
-      # |> Music.create_album(actor: admin)
-      # |> Ash.Test.assert_has_error(Ash.Error.Invalid, fn error ->
-      #   match?(%{message: "must be between 1950 and next year"}, error)
-      # end)
+      # Using `assert_has_error` - note the lack of bang to return the error
+      %{artist_id: artist.id, name: "test 1950", year_released: 1949}
+      |> Music.create_album(actor: admin)
+      |> Ash.Test.assert_has_error(Ash.Error.Invalid, fn error ->
+        match?(%{message: "must be between 1950 and next year"}, error)
+      end)
     end
 
-    @tag :skip
     test "cover_image_url must be either a remote URL or a local URL from /images" do
-      # admin = generate(user(role: :admin))
-      # artist = generate(artist())
+      admin = generate(user(role: :admin))
+      artist = generate(artist())
 
-      # with_url = fn url ->
-      #   Ash.Generator.action_input(Tunez.Music.Album, :create,
-      #     artist_id: artist.id,
-      #     year_released: 2025,
-      #     cover_image_url: url
-      #   )
-      #   |> Enum.at(0)
-      # end
+      with_url = fn url ->
+        Ash.Generator.action_input(Tunez.Music.Album, :create,
+          artist_id: artist.id,
+          year_released: 2025,
+          cover_image_url: url
+        )
+        |> Enum.at(0)
+      end
 
-      # assert Music.create_album!(with_url.("/images/test.jpg"), actor: admin)
+      assert Music.create_album!(with_url.("/images/test.jpg"), actor: admin)
 
-      # assert_raise Ash.Error.Invalid, ~r/must start with/, fn ->
-      #   Music.create_album!(with_url.("notavalidURL"), actor: admin)
-      # end
+      assert_raise Ash.Error.Invalid, ~r/must start with/, fn ->
+        Music.create_album!(with_url.("notavalidURL"), actor: admin)
+      end
 
-      # with_url.("/image/tunez.mp3")
-      # |> Music.create_album(actor: admin)
-      # |> assert_has_error(fn error ->
-      #   error.field == :cover_image_url && error.message == "must start with https:// or /images/"
-      # end)
+      with_url.("/image/tunez.mp3")
+      |> Music.create_album(actor: admin)
+      |> assert_has_error(fn error ->
+        error.field == :cover_image_url && error.message == "must start with https:// or /images"
+      end)
     end
   end
 end
