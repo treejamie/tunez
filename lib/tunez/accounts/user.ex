@@ -310,10 +310,6 @@ defmodule Tunez.Accounts.User do
     end
   end
 
-  identities do
-    identity :unique_email, [:email]
-  end
-
   relationships do
     has_many :follower_relationships, Tunez.Music.ArtistFollower do
       destination_attribute :follower_id
@@ -323,5 +319,9 @@ defmodule Tunez.Accounts.User do
       join_relationship :follower_relationships
       source_attribute_on_join_resource :follower_id
     end
+  end
+
+  identities do
+    identity :unique_email, [:email]
   end
 end
