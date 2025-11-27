@@ -44,5 +44,7 @@ defmodule Tunez.Accounts do
       define :get_user_by_id, action: :read, get_by: [:id]
       define :get_user_by_email, action: :read, get_by: [:email]
     end
+
+    resource Tunez.Accounts.Notification
   end
 end

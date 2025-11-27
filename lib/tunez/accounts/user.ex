@@ -313,6 +313,7 @@ defmodule Tunez.Accounts.User do
   relationships do
     has_many :follower_relationships, Tunez.Music.ArtistFollower do
       destination_attribute :follower_id
+      public? true
     end
 
     many_to_many :followed_artists, Tunez.Music.Artist do
