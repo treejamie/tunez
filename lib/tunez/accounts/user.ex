@@ -319,7 +319,7 @@ defmodule Tunez.Accounts.User do
       destination_attribute :follower_id
     end
 
-    many_to_many :followed_artists, Tunez.Accounts.Arttist do
+    many_to_many :followed_artists, Tunez.Music.Artist do
       join_relationship :follower_relationships
       source_attribute_on_join_resource :follower_id
     end
