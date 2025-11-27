@@ -30,8 +30,9 @@ defmodule TunezWeb.Artists.ShowLive do
         <.h1>
           {@artist.name}
           <.follow_toggle
-          :if={Tunez.Music.can_follow_artist?(@current_user, @artist)}
-          on={@artist.followed_by_me} />
+            :if={Tunez.Music.can_follow_artist?(@current_user, @artist)}
+            on={@artist.followed_by_me}
+          />
         </.h1>
         <:action :if={Tunez.Music.can_destroy_artist?(@current_user, @artist)}>
           <.button_link

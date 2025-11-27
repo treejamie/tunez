@@ -20,7 +20,13 @@ defmodule TunezWeb.Artists.IndexLive do
       Tunez.Music.search_artists!(query_text,
         page: page_params,
         query: [sort_input: sort_by],
-        load: [:album_count, :latest_album_year_released, :cover_image_url],
+        load: [
+          :album_count,
+          :latest_album_year_released,
+          :cover_image_url,
+          :followed_by_me,
+          :follower_count
+        ],
         actor: socket.assigns.current_user
       )
 
@@ -237,4 +243,6 @@ defmodule TunezWeb.Artists.IndexLive do
       n -> n
     end
   end
+
+  def round_count(_), do: 0
 end
