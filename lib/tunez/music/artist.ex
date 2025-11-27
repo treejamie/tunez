@@ -111,6 +111,14 @@ defmodule Tunez.Music.Artist do
     end
   end
 
+  calculations do
+    calculate :followed_by_me,
+              :boolean,
+              expr(exists(follower_relationships, follower_id == ^actor(:id))) do
+      public? true
+    end
+  end
+
   aggregates do
     count :album_count, :albums do
       public? true
