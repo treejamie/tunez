@@ -237,6 +237,8 @@ defmodule TunezWeb.Artists.IndexLive do
   end
 
   def round_count(number) do
+    IO.inspect(number, label: "💥")
+
     case number do
       n when n >= 1_000_000 -> "#{Float.round(n / 1_000_000, 1)}M"
       n when n >= 1_000 -> "#{Float.round(n / 1_000, 1)}K"

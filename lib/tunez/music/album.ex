@@ -64,6 +64,12 @@ defmodule Tunez.Music.Album do
     change relate_actor(:updated_by, allow_nil?: true)
   end
 
+  changes do
+    change Tunez.Accounts.Changes.SendNewAlbumNotifications, on: [:create]
+  end
+
+  def next_year, do: Date.utc_today().year + 1
+
   validations do
     validate numericality(
                :year_released,
@@ -80,8 +86,6 @@ defmodule Tunez.Music.Album do
              where: [changing(:cover_image_url)],
              message: "must start with https:// or /images"
   end
-
-  def next_year, do: Date.utc_today().year + 1
 
   attributes do
     uuid_primary_key :id
